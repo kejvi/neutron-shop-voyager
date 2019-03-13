@@ -1,0 +1,91 @@
+- edit profile => done
+- modal i reg => done
+- change pass => done
+- user edit select for office => done
+- import exel for articles => done
+- reports for office => done
+- confirm submition for return
+- modal i reg add sn => done
+- totals report => done
+- bashkia (qyteti) select , njesia adm me select , adresa posht , antaret e familjes => done
+- total rep minus te kthyerat => done
+- Modal i reg hiq asterisk => done
+- dekoderat e qyqanit => done
+- fatura new design => done
+- exel i userave => done
+- filters export n exel =>
+- print te xhiro ditore => done
+- raporti view per te pare serialet ne gjendje te shitura dhe kthime te zyra
+- search me pa ku esht shit
+- kthime sn i dekoderit qe do kthehet
+-
+
+
+
+
+SELECT
+  offices.slug,
+  branches.name AS dega,
+  sites.name AS filiali,
+  COUNT(hshpikats.id) AS dergesa,
+  COUNT(IF(hshpikats.HSH = 'H',
+  1,
+  NULL)) AS hyrje,
+  COUNT(IF(hshpikats.HSH = 'SH',
+  1,
+  NULL)) AS shitje,
+  COUNT(IF(hshpikats.HSH = 'K',
+  1,
+  NULL)) AS kthime,
+  SUM(IF(hshpikats.HSH='SH',articles.Cmimi,NULL) ) as lek
+FROM
+  offices
+LEFT JOIN
+  branches ON offices.branch_id = branches.id
+LEFT JOIN
+  sites ON branches.site_id = sites.id
+LEFT JOIN
+  hshpikats ON hshpikats.id_pika = offices.id
+LEFT JOIN
+  articles ON hshpikats.artikull_id = articles.id
+GROUP BY
+  offices.id
+
+
+
+
+SELECT
+    users.username,
+    offices.postal_code,
+    SUM(
+      IF(
+        hshpikats.HSH = 'SH',
+        articles.Cmimi,
+        0
+      )
+    ) AS lek
+  FROM
+    users
+  LEFT JOIN
+    hshpikats ON hshpikats.id_user = users.id
+  LEFT JOIN
+    articles ON hshpikats.artikull_id = articles.id
+  LEFT JOIN
+    offices ON users.office_id = offices.id
+  GROUP BY
+    users.id
+
+
+
+
+
+
+
+                        UPDATE `articles` SET sn =
+                        WHERE
+                        sn >= 'RTN101-1805010000' and sn <= 'RTN101-1805010840'
+
+
+
+
+
